@@ -19,9 +19,9 @@ proxychains ./linWinPwn.sh -t <Domain_Controller_IP>
 ## Setup
 
 Git clone the repository and make the script executable
-
+> NOTE: Upon merge to main, git links needs to change to original.
 ```bash
-git clone https://github.com/lefayjey/linWinPwn
+git clone https://github.com/holmes-py/linWinPwn
 cd linWinPwn; chmod +x linWinPwn.sh
 ```
 
@@ -30,6 +30,29 @@ Install requirements using the `install.sh` script (using standard account)
 chmod +x install.sh
 ./install.sh
 ```
+### Docker Setup:
+> Note: This is in progress, only have partial capabilities due to some technical impossibilities, PRs are appreciated. 
+
+```bash
+git clone https://github.com/holmes-py/linWinPwn
+cd linWinPwn
+```
+Creating a docker image of the tool:   
+Doing this will take time for the first time. Once this is done, we can create one time containers from it.  
+```bash
+docker build -t linWinPwn:Latest .
+```
+Creating container, and mounting current directory as output folder. 
+-t: Target IP
+/root/data: This is a location inside docker to which the current directory is mounted.
+
+```bash
+docker run -it --rm --name linwinpwn -v $(pwd):/root/data linWinPwn:Latest -t <Target-IP> -o /root/data/ --verbose
+```
+
+#### Known Issues:  
+- `ValueError: unsupported hash type MD4` while running adidnsdump.
+- Automatic Attacker IP won't work in docker, unless specified in the command.   
 
 ## Usage
 
@@ -225,6 +248,7 @@ For each of the cases described, the linWinPwn script performs different checks 
 - Add more enumeration and exploitation tools...
 - Add forging Kerberos tickets
 - Add Kerberos delegation attacks
+- Work on Docker installation (Fix NetExec changes)
 
 ## Credits
 
